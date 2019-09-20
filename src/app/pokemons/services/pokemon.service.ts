@@ -54,7 +54,7 @@ export class PokemonService {
     const url: string = `${this.pokemonsUrl}/${id}`;
     return this.http.get<Pokemon>(url).pipe(
       tap(_ => this.log(`fetched pokemon id=${id}`)),
-      catchError(this.handleError<Pokemon>(`getPokemon id=${id}`))
+      catchError(error => this.handleError<Pokemon>(`getPokemon id=${id}`, error))
     );
   }
 }
