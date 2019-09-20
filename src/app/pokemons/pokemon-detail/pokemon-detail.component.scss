@@ -1,0 +1,25 @@
+
+@media (min-width: 800px) {
+	.pokemon-card {
+		margin-left: 10em;
+		margin-right: 10em;
+	}
+}
+
+@media (min-width: 1000px) {
+	.pokemon-card {
+		margin-left: 15em;
+		margin-right: 15em;
+	}
+}
+
+@media (min-width: 1200px) {
+	.pokemon-card {
+		margin-left: 18em;
+		margin-right: 18em;
+	}
+}
+
+.pokemon-number {
+	text-align: center;
+}
