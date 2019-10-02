@@ -13,6 +13,8 @@ export class PokemonListComponent implements OnInit {
   pokemons: Pokemon[] = [];
 
   offset: number = 0;
+  limit: number = 15;
+  searchValue: string = "";
 
   @Output() selectedPokemonIDEE: EventEmitter<number> = new EventEmitter();
 
@@ -22,13 +24,21 @@ export class PokemonListComponent implements OnInit {
     this.getPokemons();
   }
 
-  getPokemons(offset: number = 0, limit: number = 15) {
-    this.pokemonService.getPaginatedPokemons(offset, limit).subscribe(pokemons => this.pokemons.push(...pokemons.data));
+  getPokemons(offset: number = this.offset, limit: number = this.limit, search: string = this.searchValue) {
+    this.pokemonService.getPaginatedPokemons(offset, limit, search).subscribe(pokemons => this.pokemons.push(...pokemons.data));
     this.offset += limit;
   }
 
+  searchPokemons(searchValue: string) {
+    this.searchValue = searchValue;
+    this.pokemons = [];
+    this.offset = 0;
+
+    this.getPokemons();
+  }
+
   onScroll() {
-    this.getPokemons(this.offset);
+    this.getPokemons();
   }
 
   onSelect(pokemonID: number) {

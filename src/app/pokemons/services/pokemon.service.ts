@@ -42,10 +42,10 @@ export class PokemonService {
     );
   }
 
-  getPaginatedPokemons(offset: number, limit: number): Observable<PagedData<Pokemon>> {
-    const url: string = `${this.pokemonsUrl}?offset=${offset}&limit=${limit}`;
+  getPaginatedPokemons(offset: number, limit: number, search: string = ""): Observable<PagedData<Pokemon>> {
+    const url: string = `${this.pokemonsUrl}?offset=${offset}&limit=${limit}` + (search !== "" ? `&search=${search}` : "");
     return this.http.get<PagedData<Pokemon>>(url).pipe(
-      tap(pokemons => pokemons.data.length > 0 && this.log(`fetched pokemons from ${offset} to ${offset + limit}`)),
+      tap(pokemons => pokemons.data.length > 0 && this.log(`fetched pokemons from ${offset} to ${offset + limit}` + (search !== "" ? ` | search : ${search}` : ""))),
       catchError(error => this.handleError<any>('getPaginatedPokemons', error))
     );
   }
@@ -54,7 +54,16 @@ export class PokemonService {
     const url: string = `${this.pokemonsUrl}/${id}`;
     return this.http.get<Pokemon>(url).pipe(
       tap(_ => this.log(`fetched pokemon id=${id}`)),
-      catchError(error => this.handleError<Pokemon>(`getPokemon id=${id}`, error))
+      catchError(error => this.handleError<Pokemon>(`getPokemon id = ${id}`, error))
+    );
+  }
+
+  searchPokemons(searchValue: string): Observable<PagedData<Pokemon>> {
+    const url: string = `${this.pokemonsUrl}?search=${searchValue}`;
+    return this.http.get<PagedData<Pokemon>>(url).pipe(
+      // tap(pokemons => pokemons.data.length > 0 && this.log(`fetched pokemons matching the search : '${searchValue}'`)),
+      tap(pokemons => this.log(`fetched pokemons matching the search : '${searchValue}'`)),
+      catchError(error => this.handleError<any>('searchPokemons', error))
     );
   }
 }

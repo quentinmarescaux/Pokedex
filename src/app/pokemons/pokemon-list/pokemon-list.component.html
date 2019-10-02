@@ -1,3 +1,6 @@
+<div>
+	<input #searchBox type="text" (input)="searchPokemons(searchBox.value)" />
+</div>
 <mat-list role="list" class="pokemons-list" infiniteScroll [scrollWindow]="false" (scrolled)="onScroll()">
 	<mat-list-item role="listitem" *ngFor="let pokemon of pokemons" (click)="onSelect(pokemon.id)" class="pokemon">
 		<img matListAvatar src="assets/img/sprites/{{pokemon.id}}.png" alt="{{pokemon.name}}" />
